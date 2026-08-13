@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Expense Tracker</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="app">
+
+    <header>
+
+        <div>
+            <h1>💰 Expense Tracker</h1>
+            <p>Manage your daily expenses easily</p>
+        </div>
+
+        <div class="date" id="date"></div>
+
+    </header>
+
+
+    <!-- Dashboard Cards -->
+
+    <section class="cards">
+
+        <div class="card">
+            <span>💵</span>
+            <div>
+                <p>Total Expenses</p>
+                <h2>₹<span id="total">0</span></h2>
+            </div>
+        </div>
+
+        <div class="card">
+            <span>📋</span>
+            <div>
+                <p>Total Transactions</p>
+                <h2 id="count">0</h2>
+            </div>
+        </div>
+
+        <div class="card">
+            <span>📊</span>
+            <div>
+                <p>Average Expense</p>
+                <h2>₹<span id="average">0</span></h2>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- Main Content -->
+
+    <section class="main">
+
+        <!-- Add Expense -->
+
+        <div class="box">
+
+            <h2>Add New Expense</h2>
+
+            <form id="expenseForm">
+
+                <label>Expense Name</label>
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Example: Lunch"
+                    required>
+
+
+                <label>Amount</label>
+
+                <input
+                    type="number"
+                    id="amount"
+                    placeholder="Enter amount"
+                    min="1"
+                    required>
+
+
+                <label>Category</label>
+
+                <select id="category">
+
+                    <option value="Food">🍔 Food</option>
+
+                    <option value="Travel">🚌 Travel</option>
+
+                    <option value="Shopping">🛍️ Shopping</option>
+
+                    <option value="Bills">💡 Bills</option>
+
+                    <option value="Other">📦 Other</option>
+
+                </select>
+
+
+                <button type="submit">
+                    + Add Expense
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- Expense List -->
+
+        <div class="box">
+
+            <div class="list-header">
+
+                <h2>Recent Expenses</h2>
+
+                <button
+                    class="refresh"
+                    onclick="loadExpenses()">
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+
+                        <th>Expense</th>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody id="expenseTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div
+                id="empty"
+                class="empty">
+
+                No expenses added yet.
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
