@@ -38,25 +38,26 @@ pipeline {
         }
 
         stage('Package') {
-            steps {
-                echo 'Packaging Expense Tracker application...'
+    steps {
+        echo 'Packaging Expense Tracker application...'
 
-                bat '''
-                    if exist package rmdir /s /q package
+        bat '''
+            if exist package rmdir /s /q package
 
-                    mkdir package
-                    mkdir package\\out
-                    mkdir package\\frontend
+            mkdir package
+            mkdir package\\out
+            mkdir package\\frontend
 
-                    xcopy /E /I /Y out package\\out
-                    xcopy /E /I /Y index.html package\\frontend
-                    xcopy /E /I /Y style.css package\\frontend
-                    xcopy /E /I /Y script.js package\\frontend
+            xcopy /E /I /Y out package\\out
 
-                    echo Application packaged successfully.
-                '''
-            }
-        }
+            copy /Y index.html package\\frontend\\index.html
+            copy /Y style.css package\\frontend\\style.css
+            copy /Y script.js package\\frontend\\script.js
+
+            echo Application packaged successfully.
+        '''
+    }
+}
 
         stage('Archive') {
             steps {
