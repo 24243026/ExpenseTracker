@@ -78,22 +78,20 @@ pipeline {
 
 
         stage('Deploy') {
-            steps {
+    steps {
+        echo 'Deploying Expense Tracker application...'
 
-                echo 'Deploying Expense Tracker application...'
+        bat '''
+            if exist "C:\\ProgramData\\Jenkins\\.jenkins\\userContent\\expense-tracker" rmdir /s /q "C:\\ProgramData\\Jenkins\\.jenkins\\userContent\\expense-tracker"
 
-                bat '''
-                    if exist deploy rmdir /s /q deploy
+            mkdir "C:\\ProgramData\\Jenkins\\.jenkins\\userContent\\expense-tracker"
 
-                    mkdir deploy
+            xcopy /E /I /Y package\\frontend "C:\\ProgramData\\Jenkins\\.jenkins\\userContent\\expense-tracker"
 
-                    xcopy /E /I /Y package deploy
-
-                    echo Application deployment completed.
-                '''
-            }
-        }
+            echo Expense Tracker deployed successfully!
+        '''
     }
+}
 
 
     post {
