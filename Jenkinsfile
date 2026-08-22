@@ -10,26 +10,21 @@ pipeline {
             }
         }
 
-
         stage('Compile') {
             steps {
-
                 echo 'Compiling Java source code...'
 
                 bat '''
                     if exist out rmdir /s /q out
                     mkdir out
-
                     javac -d out ExpenseServer.java
                 '''
             }
         }
 
-
         stage('Test') {
             steps {
-
-                echo 'Checking compiled Java class...'
+                echo 'Checking compiled Java classes...'
 
                 bat '''
                     if not exist out\\ExpenseServer.class (
@@ -42,10 +37,8 @@ pipeline {
             }
         }
 
-
         stage('Package') {
             steps {
-
                 echo 'Packaging Expense Tracker application...'
 
                 bat '''
@@ -55,20 +48,18 @@ pipeline {
                     mkdir package\\out
                     mkdir package\\frontend
 
-                    copy /Y out\\ExpenseServer.class package\\out\\
-                    copy /Y index.html package\\frontend\\
-                    copy /Y style.css package\\frontend\\
-                    copy /Y script.js package\\frontend\\
+                    xcopy /E /I /Y out package\\out
+                    xcopy /E /I /Y index.html package\\frontend
+                    xcopy /E /I /Y style.css package\\frontend
+                    xcopy /E /I /Y script.js package\\frontend
 
                     echo Application packaged successfully.
                 '''
             }
         }
 
-
         stage('Archive') {
             steps {
-
                 echo 'Archiving Expense Tracker application...'
 
                 archiveArtifacts artifacts: 'package/**',
@@ -76,28 +67,26 @@ pipeline {
             }
         }
 
-
         stage('Deploy') {
-    steps {
-        echo 'Deploying Expense Tracker application...'
+            steps {
+                echo 'Deploying Expense Tracker application...'
 
-        bat '''
-            if exist "C:\\ProgramData\\Jenkins\\.jenkins\\userContent\\expense-tracker" rmdir /s /q "C:\\ProgramData\\Jenkins\\.jenkins\\userContent\\expense-tracker"
+                bat '''
+                    if exist "C:\\ProgramData\\Jenkins\\.jenkins\\userContent\\expense-tracker" rmdir /s /q "C:\\ProgramData\\Jenkins\\.jenkins\\userContent\\expense-tracker"
 
-            mkdir "C:\\ProgramData\\Jenkins\\.jenkins\\userContent\\expense-tracker"
+                    mkdir "C:\\ProgramData\\Jenkins\\.jenkins\\userContent\\expense-tracker"
 
-            xcopy /E /I /Y package\\frontend "C:\\ProgramData\\Jenkins\\.jenkins\\userContent\\expense-tracker"
+                    xcopy /E /I /Y package\\frontend "C:\\ProgramData\\Jenkins\\.jenkins\\userContent\\expense-tracker"
 
-            echo Expense Tracker deployed successfully!
-        '''
+                    echo Expense Tracker deployed successfully!
+                '''
+            }
+        }
     }
-}
-
 
     post {
 
         success {
-
             echo '======================================'
             echo '       Expense Tracker'
             echo '       CI/CD PIPELINE SUCCESSFUL'
@@ -105,7 +94,6 @@ pipeline {
         }
 
         failure {
-
             echo '======================================'
             echo '       Expense Tracker'
             echo '       CI/CD PIPELINE FAILED'
